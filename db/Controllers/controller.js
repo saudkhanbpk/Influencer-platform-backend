@@ -64,12 +64,12 @@ const controller = {
         });
         console.log("new user",newUser)
         await newUser.save().then((result) => {
-          // const token = jwt.sign(
-          //   { email: newUser.email, id: newUser._id },
-          // );
+          const token = jwt.sign(
+            { email: newUser.email, id: newUser._id }, "your"
+          );
           return res.status(201).json({
             newUser,
-            // token,
+            token,
             msg: "User Created Successfully",
           });
         });
