@@ -1,9 +1,11 @@
 const User = require('../Models/User');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
-const nodemailer = require('nodemailer')
-const sendVerifyMail = async ( name, email , userId) => {
-  console.log('mail verify :',name, email,userId);
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const { v4: uuidv4 } = require('uuid');
+
+const sendVerifyMail = async (name, email, userId) => {
+  console.log('mail verify :', name, email, userId);
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -11,7 +13,7 @@ const sendVerifyMail = async ( name, email , userId) => {
       pass: process.env.AUTH_PASSWORD,
     },
   });
-  console.log("welcome tran",transporter)
+  console.log("welcome tran", transporter)
   const mailOptions = {
     from: process.env.AUTH_EMAIL,
     to: email,
@@ -19,11 +21,11 @@ const sendVerifyMail = async ( name, email , userId) => {
     html:
       "<p><h2> " +
       email +
-      ' Thanks For Registering On Our Site</h2> <h4>Please Verify Your Email To Continue....</h4> Click here to <a href="https://roadmap-backend.herokuapp.com/api/verify?id=' +
+      ' Thanks For Registering On Our Site</h2> <h4>Please Verify Your Email To Continue....</h4> Click here to <a href="http://localhost:3000/great?id=' +
       userId +
       '"> Verify </a> your mail.</p>',
   };
-  console.log("options ",mailOptions)
+  console.log("options ", mailOptions)
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       return console.log(error);
@@ -32,7 +34,7 @@ const sendVerifyMail = async ( name, email , userId) => {
     }
   });
 
-
+ 
 
   transporter.verify((error, success) => {
     if (error) {
@@ -42,56 +44,85 @@ const sendVerifyMail = async ( name, email , userId) => {
   });
 };
 
+
 const controller = {
   async register(req, res) {
     const { name, email, password } = req.body;
-    console.log("djdkdk", email)
+
     if (!name || !email || !password) {
-      return res
-        .status(201)
-        .json({ Error: true, msg: "Please enter all fields" });
+      return res.status(400).json({ Error: true, msg: "Please enter all fields" });
     }
+
     try {
       const user = await User.findOne({ email });
       if (!user) {
         let hashedpassword = await bcrypt.hash(password, 12);
+        const emailToken = uuidv4(); // Generate a unique token for email verification
 
         const newUser = new User({
           name,
           email,
           password: hashedpassword,
-          verified: false,
+          verify: false, // Correct the field name to "is_verified"
+          emailToken,
         });
-        console.log("new user",newUser)
+
         await newUser.save().then((result) => {
           const token = jwt.sign(
-            { email: newUser.email, id: newUser._id }, "your"
+            { email: newUser.email, id: newUser._id },
+            "your_secretc_key"
           );
+
+          sendVerifyMail(newUser.name, newUser.email, newUser._id);
+
           return res.status(201).json({
             newUser,
             token,
             msg: "User Created Successfully",
           });
         });
-        if (newUser) {
-          console.log("newUser2",newUser)
-          sendVerifyMail(newUser.name, newUser.email, newUser._id);
-          return res.status("registration", {
-            message:
-              "your registration has been successfully, please verify your email",
-          });
-        }
-        } else {
-          res.status(201).json({
-            status: false,
-            Error: true,
-            msg: "User Already Exist",
-          });
-          return res.status(201).json({ msg: "User Already Exist" });
+      } else {
+        return res.status(400).json({
+          status: false,
+          Error: true,
+          msg: "User Already Exist",
+        });
       }
     } catch (error) {
-      return console.log(error);
+      return res.status(500).json({ Error: true, msg: "Internal Server Error" });
     }
   },
-}
+
+
+  async verificationAfterEmail(req, res) {
+    const { _id } = req.body;
+
+    if (!_id ) {
+      return res.status(400).json({ Error: true, msg: "Please enter id" });
+    }
+
+    try {
+      const user = await User.findById(_id);
+      if (user) {
+
+        let userVerified=await User.findByIdAndUpdate(_id,{verify:true})
+        return res.status(200).json({
+          userVerified,
+          msg: "verified user successfully",
+        });
+       
+      } else {
+        return res.status(400).json({
+          status: false,
+          Error: true,
+          msg: "User not found",
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({ Error: true, msg: "Internal Server Error" });
+    }
+  },
+  
+};
+
 module.exports = controller;
