@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const Generalcontroller = {
     async general(req, res) {
       const { fname,lname, phone, companyname,companywebsite,companyaddress } = req.body;
-  
+       console.log(fname,lname,phone,companyname,companywebsite,companyaddress)
       if (!fname || !lname || !phone || !companyname || !companywebsite || !companyaddress) {
         return res.status(400).json({ Error: true, msg: "Please enter all fields" });
       }

@@ -21,7 +21,7 @@ const sendVerifyMail = async (name, email, userId) => {
     html:
       "<p><h2> " +
       email +
-      ' Thanks For Registering On Our Site</h2> <h4>Please Verify Your Email To Continue....</h4> Click here to <a href="http://localhost:3000/great?id=' +
+      ' Thanks For Registering On Our Site</h2> <h4>Please Verify Your Email To Continue....</h4> Click here to <a href="https://influencer-platform-mbvv.vercel.app/great?id=' +
       userId +
       '"> Verify </a> your mail.</p>',
   };
