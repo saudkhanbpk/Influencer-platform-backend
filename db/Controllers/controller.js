@@ -8,6 +8,7 @@ const sendVerifyMail = async (name, email, userId) => {
   console.log('mail verify :', name, email, userId);
   let transporter = nodemailer.createTransport({
     service: "gmail",
+    secure:true,
     auth: {
       user: process.env.AUTH_EMAIL,
       pass: process.env.AUTH_PASSWORD,
