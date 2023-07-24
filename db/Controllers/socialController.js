@@ -29,6 +29,7 @@ const Socialcontroller = {
                         { instagram: newUser.instagram, id: newUser._id },
                         "your_secretc_key"
                     );
+
                     return res.status(201).json({
                         newUser,
                         token,
