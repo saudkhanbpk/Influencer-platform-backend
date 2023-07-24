@@ -16,4 +16,15 @@ router.post('/company_info', Companycontroller.company);
 router.post('/social_handle', Socialcontroller.social);
 router.post('/payment', stripeController.handlePayment);
 
+//company route
+router.get('/company', Companycontroller.getCompany);
+router.get('/company/:id', Companycontroller.getCompanyById);
+router.delete('/company/:id', Companycontroller.deleteCompany);
+router.put('/company/:id', Companycontroller.updateCompany);
+
+//social route
+router.get('/social', Socialcontroller.getSocial);
+router.get('/social/:id', Socialcontroller.getSocialById);
+router.delete('/social/:id', Socialcontroller.deleteSocial);
+router.put('/social/:id', Socialcontroller.updateSocial);
 module.exports = router;
