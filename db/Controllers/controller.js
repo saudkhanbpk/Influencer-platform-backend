@@ -9,6 +9,7 @@ const sendVerifyMail = async (name, email, userId) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     secure:true,
+    name:['influencer-platform-mbvv.vercel.app'],
     auth: {
       user: process.env.AUTH_EMAIL,
       pass: process.env.AUTH_PASSWORD,
@@ -16,7 +17,6 @@ const sendVerifyMail = async (name, email, userId) => {
   });
   console.log("welcome tran", transporter)
   const mailOptions = {
-    from: process.env.AUTH_EMAIL,
     to: email,
     subject: "Email verification",
     html:
