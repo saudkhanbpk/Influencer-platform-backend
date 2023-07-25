@@ -21,10 +21,6 @@ const registerSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // name:String,
-    // email:String,
-    // password:String,
-    // is_varified:Number
 });
 
 module.exports = mongoose.model('users', registerSchema);

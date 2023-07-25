@@ -8,8 +8,6 @@ const sendVerifyMail = async (name, email, userId) => {
   console.log('mail verify :', name, email, userId);
   let transporter = nodemailer.createTransport({
     service: "gmail",
-    secure:true,
-    name:['influencer-platform-mbvv.vercel.app'],
     auth: {
       user: process.env.AUTH_EMAIL,
       pass: process.env.AUTH_PASSWORD,
@@ -64,7 +62,7 @@ const controller = {
           name,
           email,
           password: hashedpassword,
-          verify: false, // Correct the field name to "is_verified"
+          verify: false,
           emailToken,
         });
 
