@@ -1,12 +1,21 @@
 // controllers/stripeController.js
-const Stripe = require('stripe')(process.env.SECRET_KEY);
+// controllers/stripeController.js
+require('dotenv').config();
+const stripe = require('stripe')(process.env.SECRET_KEY);
+console.log("nnnnnnnn", process.env.SECRET_KEY)
 
 exports.handlePayment = async (req, res) => {
   let status, error;
   const { token, amount } = req.body;
+  // return console.log(token)
   try {
-    await Stripe.charges.create({
-      source: token.id,
+    await stripe.charges.create({
+      // amount,
+      // currency: 'usd',
+      // payment_method_types: ['card'],
+      // payment_method: token.id,
+      // confirm: true,
+      source:token.id,
       amount,
       currency: 'usd',
     });
@@ -18,3 +27,4 @@ exports.handlePayment = async (req, res) => {
   }
   res.json({ error, status });
 };
+
