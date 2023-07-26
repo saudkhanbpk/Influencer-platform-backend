@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const companyInfoSchema = new mongoose.Schema({
+    userId: {
+type:String
+    },
     niche: {
         type: String,
     },

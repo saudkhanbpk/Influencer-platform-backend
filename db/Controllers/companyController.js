@@ -2,7 +2,7 @@ const Company = require('../Models/Company_information');
 const jwt = require('jsonwebtoken');
 const Companycontroller = {
   async company(req, res) {
-    const { niche, budget, companysize, companyfounded, bio } = req.body;
+    const { userId, niche, budget, companysize, companyfounded, bio } = req.body;
     console.log(niche, budget, companysize, companyfounded, bio)
     if (!niche || !budget || !companysize || !companyfounded || !bio) {
       return res.status(400).json({ Error: true, msg: "Please enter all fields" });
@@ -18,6 +18,7 @@ const Companycontroller = {
           companysize,
           companyfounded,
           bio,
+          userId
         });
 
         await newUser.save().then((result) => {
@@ -54,7 +55,7 @@ const Companycontroller = {
   async getCompanyById(req, res) {
     const id = req.params.id;
     try {
-      const company = await Company.findById(id);
+      const company = await Company.findById({userId:id});
       return res.status(200).json({ company });
     } catch (error) {
       return res.status(500).json({ Error: true, msg: "Internal Server Error" });

@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const socialInfoSchema = new mongoose.Schema({
+    userId: {
+        type:String
+            },
     instagram: {
         type: String,
     },
