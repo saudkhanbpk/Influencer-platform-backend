@@ -2,7 +2,7 @@ const Social = require('../Models/Social_information');
 const jwt = require('jsonwebtoken');
 const Socialcontroller = {
     async social(req, res) {
-        const { instagram, tiktok, youtube, facebook, twitter, pinterest, linkedin, blog } = req.body;
+        const { userId, instagram, tiktok, youtube, facebook, twitter, pinterest, linkedin, blog } = req.body;
         console.log(instagram, tiktok, youtube, facebook, twitter, pinterest, linkedin, blog)
         if (!instagram || !tiktok || !youtube || !facebook || !twitter || !pinterest || !linkedin || !blog) {
             return res.status(400).json({ Error: true, msg: "Please enter all fields" });
@@ -20,7 +20,8 @@ const Socialcontroller = {
                     twitter,
                     pinterest,
                     linkedin,
-                    blog
+                    blog,
+                    userId
                 });
 
                 await newUser.save().then((result) => {
@@ -57,8 +58,9 @@ const Socialcontroller = {
     },
     async getSocialById(req, res) {
         const id = req.params.id;
+        console.log(id)
         try {
-            const social = await Social.findById(id);
+            const social = await Social.findOne({ userId: id });
             return res.status(200).json({ social });
         } catch (error) {
             return res.status(500).json({ Error: true, msg: "Internal Server Error" });

@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const generalInfoSchema = new mongoose.Schema({
+    userId: {
+        type:String
+            },
     fname: {
         type: String,
     },
