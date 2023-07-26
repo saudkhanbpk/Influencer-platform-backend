@@ -55,7 +55,7 @@ const Companycontroller = {
   async getCompanyById(req, res) {
     const id = req.params.id;
     try {
-      const company = await Company.findById({userId:id});
+      const company = await Company.findOne({ userId: id });
       return res.status(200).json({ company });
     } catch (error) {
       return res.status(500).json({ Error: true, msg: "Internal Server Error" });
