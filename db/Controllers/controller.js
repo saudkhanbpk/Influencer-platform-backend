@@ -132,6 +132,35 @@ const controller = {
       return res.status(500).json({ Error: true, msg: "Internal Server Error" });
     }
   },
+
+
+  // this is resend verfiy link code
+  
+  async resendVerification(req, res) {
+    const { userEmail } = req.body;
+
+    if (!userEmail) {
+        return res.status(400).json({ Error: true, msg: "Please provide the user's email" });
+    }
+
+    try {
+        const user = await User.findOne({ email: userEmail });
+        if (user) {
+            // Generate a new emailToken for verification
+            const emailToken = uuidv4();
+            await User.findByIdAndUpdate(user._id, { emailToken });
+
+            // Send the new verification link
+            sendVerifyMail(user.name, user.email, user._id);
+
+            return res.status(200).json({ msg: "Verification link resent successfully" });
+        } else {
+            return res.status(404).json({ Error: true, msg: "User not found" });
+        }
+    } catch (error) {
+        return res.status(500).json({ Error: true, msg: "Internal Server Error" });
+    }
+},
   
 };
 
