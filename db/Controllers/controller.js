@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
-
+const uploadPhoto = require('../utils/UploadImage');
+const imageUpload = require('../utils/upload');
 const sendVerifyMail = async (name, email, userId) => {
   console.log('mail verify :', name, email, userId);
   let transporter = nodemailer.createTransport({
@@ -243,6 +244,33 @@ const controller = {
       return res.status(500).json({ Error: true, msg: "Internal Server Error" });
     }
   },
+
+  async userProfile(req, res) {
+    console.log(req.body)
+    console.log(req.file.filename)
+    if (!req.file) {
+      return res.status(400).json({ Error: true, msg: "Please upload a file" });
+    }
+    const { _id } = req.params;
+    const { file } = req;
+    const { path } = file;
+    const image = await imageUpload(file);
+    const imageName = req.file.filename;
+    console.log("Image name is ....", imageName);
+
+    try {
+      const user = await User.findByIdAndUpdate(_id, { image: imageName }, { new: true });
+      return res.status(200).json({
+        user,
+        msg: "Profile Image updated successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({ Error: true, msg: "Internal Server Error" });
+    }
+  },
+
+
+
 
 };
 

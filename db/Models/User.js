@@ -95,6 +95,10 @@ const registerSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    image: {
+        type: String,
+        default: "https://cdn-icons-png.flaticon.com/512/727/727399.png?w=740&t=st=1690362819~exp=1690363419~hmac=adeefbb4d8d6c8ea486ba074e25f76c56b69bf5c379c7057d63e492e8e2e5890"
+    },
     // name:String,
     // email:String,
     // password:String,

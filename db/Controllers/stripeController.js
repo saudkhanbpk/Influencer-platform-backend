@@ -2,7 +2,7 @@
 // controllers/stripeController.js
 require('dotenv').config();
 const stripe = require('stripe')(process.env.SECRET_KEY);
-console.log("nnnnnnnn", process.env.SECRET_KEY)
+// console.log("nnnnnnnn", process.env.SECRET_KEY)
 
 exports.handlePayment = async (req, res) => {
   let status, error;
