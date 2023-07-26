@@ -5,6 +5,80 @@ const registerSchema = new mongoose.Schema({
         type: String,
         default: true
     },
+    firstName: {
+        type: String
+    },
+    lastName: {
+        type: String
+    },
+    timeZones: {
+        type: String
+    },
+    plan: {
+        type: String
+    },
+    billingDetails: [
+        {
+            cardNumber: {
+                type: String
+            },
+            cardHolderName: {
+                type: String
+            },
+            zipCode: {
+                type: String
+            },
+            country: {
+                type: String
+            },
+        }
+    ],
+
+    members: [
+        {
+            email: {
+                type: String
+            },
+        }
+    ],
+
+    notifications: [
+        {
+            newMessages: {
+                type: Boolean
+            },
+            jobApplications: {
+                type: Boolean
+            },
+            influncerSignups: {
+                type: Boolean
+            },
+            influncerAddedToDatabase: {
+                type: Boolean
+            },
+            membership: {
+                type: Boolean
+            },
+            newMessages: {
+                type: Boolean
+            },
+            emailjobApplications: {
+                type: Boolean
+            },
+            emailinfluncerSignups: {
+                type: Boolean
+            },
+            emailinfluncerAddedToDatabase: {
+                type: Boolean
+            },
+            emailmembership: {
+                type: Boolean
+            },
+
+        }
+    ],
+
+
     email: {
         type: String,
         default: true
@@ -15,7 +89,7 @@ const registerSchema = new mongoose.Schema({
     },
     verify: {
         type: Boolean,
-        default:false
+        default: false
     },
     emailToken: {
         type: String,
