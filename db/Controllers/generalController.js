@@ -39,7 +39,7 @@ const Generalcontroller = {
           status: false,
           Error: true,
           msg: "General info already exists",
-        });
+        }); 
       }
     } catch (error) {
       return res.status(500).json({ Error: true, msg: "Internal Server Error" });
