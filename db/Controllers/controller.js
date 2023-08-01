@@ -245,6 +245,19 @@ const controller = {
     }
   },
 
+  async getUserById(req, res) {
+    const { _id } = req.params;
+    try {
+      const users = await User.find({_id});
+      return res.status(200).json({
+        users,
+        msg: "All users retrieved successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({ Error: true, msg: "Internal Server Error" });
+    }
+  },
+
   async userProfile(req, res) {
     console.log(req.body)
     console.log(req.file.filename)

@@ -46,4 +46,7 @@ router.put('/updateMembers/:_id', controller.updateUserAccountMembers);
 //update user profile
 router.put('/updateProfile/:_id', uploadPhoto.single("image"), controller.userProfile);
 
+
+//get user by _d
+router.post('/getuser/:_id', controller.getUserById)
 module.exports = router;
