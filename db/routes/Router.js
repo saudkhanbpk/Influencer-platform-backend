@@ -12,6 +12,7 @@ router.post('/register', controller.register);
 router.get('/register', controller.getAllUsers); // Added the GET API to retrieve all users
 router.post('/login', LoginController.signin);
 router.post('/user_verify', controller.verificationAfterEmail);
+router.post('/resend_verify', controller.resendVerification);
 router.post('/general_info', general_Information.general);
 router.post('/company_info', Companycontroller.company);
 router.post('/social_handle', Socialcontroller.social);
