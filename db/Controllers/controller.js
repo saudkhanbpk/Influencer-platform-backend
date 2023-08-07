@@ -289,7 +289,7 @@ const controller = {
   
   async userProfile(req, res) {
     console.log(req.body)
-    console.log(req.file.filename)
+    // console.log(req.file.filename)
     if (!req.file) {
       return res.status(400).json({ Error: true, msg: "Please upload a file" });
     }
